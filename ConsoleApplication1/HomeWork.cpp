@@ -63,4 +63,4 @@ int main(int argc, const char** argv) { // 1TBS
     std::cout << "SPair: " << p6.first() << ", " << p6.second() << '\n';
 
     return 0;
-}
+};
