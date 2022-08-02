@@ -1,37 +1,53 @@
-﻿
-#include <iostream>
-#include <vector>
+﻿#include <iostream>
+#include <string>       // std::string
+#include <sstream>      // std::stringstream, std::stringbuf
 
-void print(std::vector<int> arr) {
-    for (int i = 0; i < arr.size(); i++) {
-        std::cout << arr[i] << ", ";
-    }
-    std::cout << std::endl;
 
+
+class E {
+    friend std::ostream& operator<< (std::ostream& os, const E& e);
+};
+
+std::ostream& operator<< (std::ostream& os, const E& e) {
+    os << "\n\n";
+    std::fflush(stdout);
+    return os;
+}
+
+bool check(std::string string) {
+    for (int i = 0; i < string.length(); ++i)
+        if (!isdigit(string[i]))
+            return false;
+    return true;
 }
 
 int main(int argc, const char** argv) { // 1TBS
 
-    // O(1)     set
-    // O(n^2)   for-for
-    // O(n)     map
-    std::vector<int> nums = { 11, 6, 1, 1,2,3,4,5,6,7,8,9 };
-    // \Theta(NlogN) O(N^2) help arr + for
-    std::vector<int> help;
-    help.push_back(nums.at(0));
+    std::stringstream ss;
+    ss << "hello " << "world";
+    std::stringbuf* pbuf = ss.rdbuf();
 
-    for (auto const& i : nums) { //foreach
-        bool isDupe = false;
-        for (auto it = help.begin(); it != help.end(); it++)
-            if (i == *it)
-                isDupe = true;
+    char buffer[80];
+    pbuf->sgetn(buffer, 3);
+    std::cout << buffer << "\n";
+    std::cout << buffer << std::endl;
 
-        if (!isDupe)
-            help.push_back(i);
-    }
-    std::cout << help.size() << std::endl;
-    print(help);
-    print(nums);
+    std::string str1;
+    ss >> str1;
+    std::cout << str1 << std::endl;
+
+
+    std::cout << "hello" << E();
+
+    int i;
+    std::string s;
+    do {
+        std::cout << "Enter a number: ";
+        std::cin >> s;  // cin >> i
+    } while (!check(s)); // !cin.fail()
+    i = std::stoi(s);
+    std::cout << i << std::endl;
+
 
     return 0;
 }
